@@ -18,18 +18,18 @@ export const templates: Map<string, TemplateInfo> = new Map([
     'Vite4-Vue3-Typescript-template',
     {
       name: 'admin-template',
-      downloadUrl: 'https://gitee.com/sohucw/admin-pro.git',
+      downloadUrl: 'https://gitee.com/shanxinlin/vue-system.git',
       description: 'Vue3技术栈开发模板',
-      branch: 'dev8'
+      branch: 'master'
     }
   ],
   [
     'Vite4-template1',
     {
       name: 'admin-template',
-      downloadUrl: 'https://gitee.com/sohucw/admin-pro.git',
+      downloadUrl: 'https://gitee.com/shanxinlin/vue-system.git',
       description: 'Vue3技术栈开发模板',
-      branch: 'dev9'
+      branch: 'master'
     }
   ]
 ])
