@@ -1,8 +1,13 @@
 import path from 'path'
 import fs from 'fs-extra'
 
+import { gt } from 'lodash'
+import chalk from 'chalk'
+import axios, { AxiosResponse } from 'axios'
+
 import { select, input } from '@inquirer/prompts'
 import { clone } from '../utils/clone'
+import { name, version } from '../../package.json'
 
 // import log from "../utils/log";
 
@@ -45,9 +50,33 @@ export function isOverwrite(fileName: string) {
   })
 }
 
-export async function create(prjName?: string) {
-  // ...
+export const getNpmInfo = async (npmName: string) => {
+  const npmUrl = `https://registry.npmjs.org/${npmName}`
+  let res = {}
+  try {
+    res = await axios.get(npmUrl)
+  } catch (error) {
+    console.error(error)
+  }
+  return res
+}
 
+export const getNpmLatestVersion = async (name: string) => {
+  const { data } = (await getNpmInfo(name)) as AxiosResponse
+  return data['dist-tags'].latest
+}
+
+export const checkVersion = async (name: string, version: string) => {
+  const latestVersion = await getNpmLatestVersion(name)
+  const need = gt(latestVersion, version)
+  if (need) {
+    console.warn(`检查到xiaoshan最新版本： ${chalk.blackBright(latestVersion)}，当前版本是：${chalk.blackBright(version)}`)
+    console.log(`可使用： ${chalk.yellow('npm install xiaoshan-cli@latest')}，或者使用：${chalk.yellow('xiaoshan update')}更新`)
+  }
+  return need
+}
+
+export async function create(prjName?: string) {
   // 我们需要将我们的 map 处理成 @inquirer/prompts select 需要的形式
   // 大家也可以封装成一个方法去处理
   const templateList = [...templates.entries()].map((item: [string, TemplateInfo]) => {
@@ -72,6 +101,9 @@ export async function create(prjName?: string) {
       return // 不覆盖直接结束
     }
   }
+
+  // 检查版本更新
+  await checkVersion(name, version)
 
   // 选择模板
   const templateName = await select({
