@@ -6,10 +6,19 @@ import { version } from '../package.json'
 // 命令行中使用 xiaoshan xxx 即可触发
 const program = new Command('xiaoshan')
 import { create } from './command/create'
+import { update } from './command/update'
 
 // 调用 version 的参数可以自定义
 // .version(version, '-v --version')
 program.version(version, '-v --version')
+
+// 更新脚手架
+program
+  .command('update')
+  .description('更新脚手架 xiaoshan-cli')
+  .action(async () => {
+    await update()
+  })
 
 program
   .command('create')

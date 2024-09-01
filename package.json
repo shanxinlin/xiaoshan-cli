@@ -1,6 +1,6 @@
 {
   "name": "xiaoshan-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "xiaoshan-cli 脚手架",
   "main": "index.js",
   "scripts": {
@@ -36,6 +36,7 @@
     "fs-extra": "11.1.1",
     "lodash": "4.17.21",
     "npx": "^10.2.2",
+    "ora": "5",
     "progress-estimator": "0.3.1",
     "rollup": "^4.6.1",
     "rollup-plugin-node-externals": "^5.1.2",
